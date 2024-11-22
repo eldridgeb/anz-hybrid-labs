@@ -14,7 +14,7 @@ Use PowerShell version 7+
 $participantCount = 1
 
 # Participant prefix - used for the user account and resource group names
-$participantPrefix = "hybrid-"
+$participantPrefix = "city-"
 
 # Default user password for the user accounts
 $userPassword = "HardPass123!"
@@ -45,9 +45,9 @@ az login --scope https://graph.microsoft.com//.default
 $subscriptionId = az account show --query id --output tsv
 
 # Azure resource providers registration - these can take a while so consider running them manually before the rest of the script
+Write-Host "Registering Azure resource providers..."
 az provider register --wait --namespace Microsoft.HybridCompute
 az provider register --wait --namespace Microsoft.HybridNetwork
-az provider register --wait --namespace Microsoft.HybridConnectivty
 az provider register --wait --namespace Microsoft.HybridCloud
 az provider register --wait --namespace Microsoft.Security
 az provider register --wait --namespace Microsoft.Maintenance
@@ -55,6 +55,7 @@ az provider register --wait --namespace Microsoft.GuestConfiguration
 az provider register --wait --namespace Microsoft.AzureArcData
 az provider register --wait --namespace Microsoft.OperationsManagement
 az provider register --wait --namespace Microsoft.SecurityInsights
+Write-Host "Azure resource providers registration complete."
 
 # Enable Defender for Servers Plan 2 on the subscription
 az security pricing create -n VirtualMachines --tier standard --subplan P2
