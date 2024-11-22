@@ -389,6 +389,7 @@
                 "type": "SystemAssigned"
               },
               "properties": {
+                "licenseType": "Windows_Server",
                 "hardwareProfile": {
                   "vmSize": "[parameters('clientVmSku')]"
                 },
@@ -454,7 +455,6 @@
                 },
                 "diskSizeGB": 1024,
                 "burstingEnabled": true,
-                "licenseType": "Windows_Server"
               }
             },
             {
