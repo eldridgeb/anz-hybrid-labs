@@ -389,7 +389,7 @@
                 "type": "SystemAssigned"
               },
               "properties": {
-                licenseType: "Windows_Server",
+                "licenseType": "Windows_Server",
                 "hardwareProfile": {
                   "vmSize": "[parameters('clientVmSku')]"
                 },

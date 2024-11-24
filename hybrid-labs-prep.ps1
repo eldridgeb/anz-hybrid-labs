@@ -11,10 +11,10 @@ Use PowerShell version 7+
 #>
 
 # Participant count - change this to the number of participants you want to create
-$participantCount = 1
+$participantCount = 16
 
 # Participant prefix - used for the user account and resource group names
-$participantPrefix = "city-"
+$participantPrefix = "brisbane-"
 
 # Default user password for the user accounts
 $userPassword = "HardPass123!"
@@ -59,7 +59,7 @@ Write-Host "Azure resource providers registration complete."
 
 # Enable Defender for Servers Plan 2 on the subscription
 az security pricing create -n VirtualMachines --tier standard --subplan P2
-az security auto-provisioning-setting update -n "default" --auto-provision "On"
+# az security auto-provisioning-setting update -n "default" --auto-provision "On"
 
 # Loop through the number of participants, creating user accounts and resource groups, and then the ARM deployment
 for ($i = 1; $i -le $participantCount; $i++) {
