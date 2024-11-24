@@ -38,8 +38,8 @@ if (-not (Get-Module -Name Az -ListAvailable)) {
 az config set core.allow_broker=true
 az login --scope https://graph.microsoft.com//.default
 
-# Set the subscription, can remove this bit for the Azure Pass deployment
-# az account set -n "<FILL THIS IN IF YOU GOT MULTIPLE SUBS>"
+# Set the subscription
+az account set -n "Azure Pass - Labs 1"
 
 # Get the current subscription ID
 $subscriptionId = az account show --query id --output tsv
@@ -110,3 +110,13 @@ az role assignment create --assignee $spnAppId --scope "/subscriptions/$subscrip
 az role assignment create --assignee $spnAppId --scope "/subscriptions/$subscriptionId" --role "User Access Administrator"
 
 Write-Host "All done."
+
+<#
+Once completed there should be 55 resources (9 of which are hidden) per resource group.
+
+Check with this:
+resources
+| summarize count() by resourceGroup, subscriptionId
+| order by subscriptionId asc, resourceGroup asc
+
+#>
