@@ -70,7 +70,7 @@
     },
     "githubBranch": {
       "type": "string",
-      "defaultValue": "dev",
+      "defaultValue": "main",
       "metadata": {
         "description": "Target GitHub branch"
       }
@@ -389,6 +389,7 @@
                 "type": "SystemAssigned"
               },
               "properties": {
+                licenseType: "Windows_Server",
                 "hardwareProfile": {
                   "vmSize": "[parameters('clientVmSku')]"
                 },
