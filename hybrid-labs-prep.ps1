@@ -90,10 +90,12 @@ for ($i = 1; $i -le $participantCount; $i++) {
     az deployment group create --resource-group $resourceGroupName --template-file ./ARM/azuredeploy.json
     Write-Host "Deployment has completed for resource group: $resourceGroupName"
 
-    $user = Get-EntraUser -UserId $userPrincipalName -ErrorAction SilentlyContinue
+    # Get the az ad user principal ID
+    $user = az ad user show --id $userPrincipalName
     if ($user) {
         # Assign the user account as the owner of the resource group
         az role assignment create --role "Owner" --assignee $userPrincipalName --scope $resourceGroupId
+        Write-Host "User account assigned as Owner of resource group: $resourceGroupName"
     }
     else {
         Write-Host "Unable to find user: $userPrincipalName"
