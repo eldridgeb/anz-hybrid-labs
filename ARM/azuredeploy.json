@@ -18,11 +18,11 @@
     },
     "clientVmSku": {
       "type": "string",
-      "defaultValue": "Standard_E8s_v5",
+      "defaultValue": "Standard_E4s_v5",
       "allowedValues": [
-        "Standard_E8s_v5",
-        "Standard_E8s_v4",
-        "Standard_E8s_v3"
+        "Standard_E4s_v5",
+        "Standard_E4s_v4",
+        "Standard_E4s_v3"
       ],
       "metadata": {
         "description": "Client Machine SKU"
@@ -63,14 +63,14 @@
     },
     "githubAccount": {
       "type": "string",
-      "defaultValue": "Azure",
+      "defaultValue": "eldridgeb",
       "metadata": {
         "description": "Target GitHub account"
       }
     },
     "githubBranch": {
       "type": "string",
-      "defaultValue": "main",
+      "defaultValue": "dev",
       "metadata": {
         "description": "Target GitHub branch"
       }
@@ -84,7 +84,7 @@
     },
     "githubUser": {
       "type": "string",
-      "defaultValue": "microsoft",
+      "defaultValue": "eldridgeb",
       "metadata": {
         "description": "User github account where they have forked https://github.com/microsoft/azure-arc-jumpstart-apps"
       }
@@ -116,7 +116,7 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "[format('https://raw.githubusercontent.com/{0}/arc_jumpstart_levelup/{1}/azure_arc_servers_jumpstart/', parameters('githubAccount'), parameters('githubBranch'))]"
+    "templateBaseUrl": "[format('https://raw.githubusercontent.com/{0}/anz-hybrid-labs/{1}/', parameters('githubAccount'), parameters('githubBranch'))]"
   },
   "resources": [
     {
@@ -389,7 +389,6 @@
                 "type": "SystemAssigned"
               },
               "properties": {
-                "licenseType": "Windows_Server",
                 "hardwareProfile": {
                   "vmSize": "[parameters('clientVmSku')]"
                 },
