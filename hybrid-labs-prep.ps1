@@ -49,6 +49,7 @@ Write-Host "Registering Azure resource providers..."
 az provider register --wait --namespace Microsoft.HybridCompute
 az provider register --wait --namespace Microsoft.HybridNetwork
 az provider register --wait --namespace Microsoft.HybridCloud
+az provider register --wait --namespace Microsoft.HybridConnectivity
 az provider register --wait --namespace Microsoft.Security
 az provider register --wait --namespace Microsoft.Maintenance
 az provider register --wait --namespace Microsoft.GuestConfiguration 
