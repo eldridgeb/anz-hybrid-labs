@@ -1,7 +1,7 @@
 # Assumes you created the environment using the hybrid-labs-prep.ps1 script.
 
 # Participant prefix - used for the user account and resource group names
-$participantPrefix = "<Fill this in>"
+$participantPrefix = "adelaide-"
 
 # Entra ID directory name - need this for the UPN
 # $directoryName = "<FILL THIS IN>"
@@ -24,14 +24,11 @@ az extension add -n resource-graph
 # Set the subscription, can remove this bit for the Azure Pass deployment
 # az account set -n "<FILL THIS IN IF YOU GOT MULTIPLE SUBS>"
 
-# Get the current subscription ID
-#$subscriptionId = az account show --query id --output tsv
-
 # Use Azure Resource Graph to count the number of resource groups in the subscription
-$existingResourceGroupCount = az graph query -q "resourcecontainers| where type == 'microsoft.resources/subscriptions/resourcegroups' and name startswith '$participantPrefix' | count" --query count
+$existingResourceGroupCount = az graph query -q "resourcecontainers| where type == 'microsoft.resources/subscriptions/resourcegroups' and name startswith '$participantPrefix' | count" --query data[0].Count -o tsv
 
 # convert to an integer
-$existingResourceGroupCount = [int]$existingResourceGroupCount
+#$existingResourceGroupCount = [int]$existingResourceGroupCount
 
 # If count is not an integer or is 0, exit
 if (-not $existingResourceGroupCount -or $existingResourceGroupCount -eq 0) {
@@ -41,17 +38,19 @@ if (-not $existingResourceGroupCount -or $existingResourceGroupCount -eq 0) {
     Write-Host "Found $existingResourceGroupCount existing resource groups with the prefix $participantPrefix"
 
     # Loop through the number of participants, creating user accounts and resource groups, and then the ARM deployment
-    for ($i = 1; $i -le $participantCount; $i++) {
+    for ($i = 1; $i -le $existingResourceGroupCount; $i++) {
         $userNumber = "{0:D2}" -f $i
         $participantName = $participantPrefix + $userNumber
         $userPrincipalName = "$participantName@$directoryName"
         $resourceGroupName = $participantName + "-rg"
 
         # Delete the resource group
+        Write-Host "Deleting resource group $resourceGroupName"
         az group delete --name $resourceGroupName --yes --no-wait
 
         # Delete the user account
-        az ad user delete --upn-or-object-id $userPrincipalName
+        Write-Host "Deleting user account $userPrincipalName"
+        az ad user delete --id $userPrincipalName 
     }
 }
 
