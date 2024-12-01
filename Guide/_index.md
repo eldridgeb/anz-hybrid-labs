@@ -145,7 +145,7 @@ We'll be using Azure [Azure Bastion](https://azurearcjumpstart.io/azure_jumpstar
 
 - Fill in the Service Principal secret in the script and run it.
 
-    ![Screenshot run onboard windows script](./run_windows_onboard_sctipt.png)
+    ![Screenshot run onboard windows script](./run_windows_onboard_script.png)
 
 - On successful completion a message is displayed to confirm the machine is connected to Azure Arc. We can also verify that our Windows machine is connected in the Azure portal (Machines - Azure Arc).
 
