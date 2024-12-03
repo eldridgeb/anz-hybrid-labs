@@ -78,18 +78,26 @@ for ($i = 1; $i -le $participantCount; $i++) {
         Write-Host "User account created: $participantName"
     }
 
-    # Create the resource group in the Azure subscription
     $resourceGroupName = $participantName + "-rg"
-    az group create --name $resourceGroupName --location $location
-    Write-Host "Resource group created: $resourceGroupName"
+    # Check if resource group already exists, only deploy the ARM template if it doesn't
+    # This is an easy way to redeploy for single RGs if they fail - just deleted the failed RG first
+    $resourceGroup = az group show --name $resourceGroupName
+    if ($resourceGroup) {
+        Write-Host "Resource group already exists: $resourceGroupName"
+        continue
+    } else {
+        # Create the resource group in the Azure subscription
+        az group create --name $resourceGroupName --location $location
+        Write-Host "Resource group created: $resourceGroupName"
+
+        # Deploy the ARM template to the resource group with default parameters
+        Write-Host "Deploying ARM template to resource group: $resourceGroupName. Will probably take around 20 mins or so..."
+        az deployment group create --resource-group $resourceGroupName --template-file ./ARM/azuredeploy.json
+        Write-Host "Deployment has completed for resource group: $resourceGroupName"
+    }
 
     # Get the resource group ID
     $resourceGroupId = az group show --name $resourceGroupName --query id --output tsv
-
-    # Deploy the ARM template to the resource group with default parameters
-    Write-Host "Deploying ARM template to resource group: $resourceGroupName. Will probably take around 20 mins or so..."
-    az deployment group create --resource-group $resourceGroupName --template-file ./ARM/azuredeploy.json
-    Write-Host "Deployment has completed for resource group: $resourceGroupName"
 
     # Get the az ad user principal ID
     $user = az ad user show --id $userPrincipalName
